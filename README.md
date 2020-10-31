@@ -6,6 +6,6 @@ In a real world scenario the data would be pulled from a private database as the
 not changing.
 
 #### Screenshots
-![screenshot 1](/img/screen1.png)
-![screenshot 2](/img/screen2.png)
-![screenshot 3](/img/screen3.png)
+![screenshot 1](/img/screen1.PNG)
+![screenshot 2](/img/screen2.PNG)
+![screenshot 3](/img/screen3.PNG)
