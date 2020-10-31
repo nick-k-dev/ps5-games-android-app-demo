@@ -19,15 +19,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val scraperVM = ScraperViewModel(GamesScraper())
+        scraperVM.getGames(url)
     }
 
     fun onButtonClick(view: View) {
         when (view.id) {
-            R.id.button -> {
-                println("hit the button")
-                val scraperVM = ScraperViewModel(GamesScraper())
-                scraperVM.getGames(url)
-            }
             R.id.button2 -> {
                 println("print dataContainer")
                 println(dataContainer.titles.count())
@@ -37,11 +34,13 @@ class MainActivity : AppCompatActivity() {
                 recyclerView = findViewById<RecyclerView>(R.id.gamesRecycler).apply {
                     // use this setting to improve performance if you know that changes
                     // in content do not change the layout size of the RecyclerView
-                    setHasFixedSize(true)
+                    //setHasFixedSize(true)
 
                     // use a linear layout manager
                     layoutManager = viewManager
 
+                    //Add item decoration specifically used to add spacing between elements
+                    addItemDecoration(MyRecyclerAdapter.MyItemDecorator())
                     // specify an viewAdapter (see also next example)
                     adapter = viewAdapter
                 }

@@ -2,14 +2,19 @@ package com.example.nkomarnicki.ps5gameswebscraper
 
 
 import android.content.res.Resources
+import android.graphics.Color
+import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.NonNull
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import kotlin.math.roundToInt
 
 class MyRecyclerAdapter(private val myDataset: GamesScraper.DataContainer) :
     RecyclerView.Adapter<MyRecyclerAdapter.MyViewHolder>() {
@@ -22,7 +27,7 @@ class MyRecyclerAdapter(private val myDataset: GamesScraper.DataContainer) :
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.recycler_card_layout, parent, false) as View
         val lp = view.layoutParams
-        lp.height = parent.measuredHeight/3
+        lp.height = (parent.measuredHeight / 1.5).roundToInt()
         view.layoutParams = lp
         return MyViewHolder(view)
     }
@@ -36,4 +41,16 @@ class MyRecyclerAdapter(private val myDataset: GamesScraper.DataContainer) :
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = myDataset.titles.count()
+
+    class MyItemDecorator : RecyclerView.ItemDecoration() {
+        override fun getItemOffsets(
+            @NonNull outRect: Rect,
+            @NonNull view: View,
+            @NonNull parent: RecyclerView,
+            @NonNull state: RecyclerView.State
+        ): Unit {
+            super.getItemOffsets(outRect, view, parent, state)
+            outRect.top = 100
+        }
+    }
 }
