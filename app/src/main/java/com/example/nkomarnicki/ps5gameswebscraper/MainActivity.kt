@@ -20,21 +20,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val scraperVM = ScraperViewModel(GamesScraper())
-        scraperVM.getGames(url)
-    }
-
-    fun onButtonClick(view: View) {
-        when (view.id) {
-            R.id.button2 -> {
+        val context = this
+        scraperVM.getGames(url, object:ScraperViewModel.ScraperResponse{
+            override fun onFinishedLoading() {
                 println("print dataContainer")
                 println(dataContainer.titles.count())
-                viewManager = LinearLayoutManager(this)
+                viewManager = LinearLayoutManager(context)
                 viewAdapter = MyRecyclerAdapter(dataContainer)
 
                 recyclerView = findViewById<RecyclerView>(R.id.gamesRecycler).apply {
                     // use this setting to improve performance if you know that changes
                     // in content do not change the layout size of the RecyclerView
-                    //setHasFixedSize(true)
+                    setHasFixedSize(true)
 
                     // use a linear layout manager
                     layoutManager = viewManager
@@ -45,6 +42,6 @@ class MainActivity : AppCompatActivity() {
                     adapter = viewAdapter
                 }
             }
-        }
+        })
     }
 }

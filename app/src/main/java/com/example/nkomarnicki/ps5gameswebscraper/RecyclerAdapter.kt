@@ -50,7 +50,8 @@ class MyRecyclerAdapter(private val myDataset: GamesScraper.DataContainer) :
             @NonNull state: RecyclerView.State
         ): Unit {
             super.getItemOffsets(outRect, view, parent, state)
-            outRect.top = 100
+            outRect.top = 50
+            outRect.bottom = 50
         }
     }
 }
