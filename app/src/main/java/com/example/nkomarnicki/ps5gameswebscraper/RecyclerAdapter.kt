@@ -37,11 +37,13 @@ class MyRecyclerAdapter(private val myDataset: GamesScraper.DataContainer) :
         holder.view.findViewById<TextView>(R.id.titleTextView).text = myDataset.titles[position]
         holder.view.findViewById<TextView>(R.id.descriptionTextView).text = myDataset.synopsis[position]
         Picasso.get().load(myDataset.images[position]).into(holder.view.findViewById<ImageView>(R.id.imageView))
+        holder.view.findViewById<ImageView>(R.id.imageView).contentDescription = myDataset.titles[position] + " screenshot"
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = myDataset.titles.count()
 
+    //Custom decorator in order to be able to change spacing on recycler item
     class MyItemDecorator : RecyclerView.ItemDecoration() {
         override fun getItemOffsets(
             @NonNull outRect: Rect,

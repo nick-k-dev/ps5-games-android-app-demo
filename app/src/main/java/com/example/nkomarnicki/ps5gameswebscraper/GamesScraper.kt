@@ -5,34 +5,32 @@ import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
+// Result class to return success or failure
 sealed class Result<out R> {
     data class Success<out T>(val data: T) : Result<T>()
     data class Error(val exception: Exception) : Result<Nothing>()
 }
 
+//Class handling the implementation of scraping the sony site to load the game data
 class GamesScraper {
+    //Async function to get the document data from the page
     suspend fun getGames(url: String
     ): Result<Document> {
         try {
-            println("in getMoviesByGenre")
             return withContext(Dispatchers.IO) {
-                println("in withContext Call")
                 val doc = Jsoup.connect(url).get()
-                println("made it past Jsoup call")
                 return@withContext Result.Success(doc)
             }
         }
         catch (ex: Exception) {
-            println("uh oh")
-            println(ex)
             return Result.Error(ex)
         }
     }
 
+    //Handles parsing the specific data from the PS5 page
     fun parseData(doc: Document): DataContainer {
         var dataContainer = DataContainer()
         val titles = doc.select(".box")
-        println("in parseData")
         titles.forEach { item ->
             var title = item.select("h2, h3, h4").text()
             var synopsis = item.select("p").text()
@@ -48,6 +46,7 @@ class GamesScraper {
             }
         }
 
+        //Normalize the data sources
         dataContainer.titles.removeAt(0)
         dataContainer.titles.removeAt(8)
         dataContainer.titles.removeAt(15)
@@ -56,7 +55,6 @@ class GamesScraper {
         dataContainer.titles.removeAt(44)
         dataContainer.titles.removeAt(43)
 
-
         dataContainer.synopsis.removeAt(15)
         dataContainer.synopsis.removeAt(45)
         dataContainer.synopsis.removeAt(44)
@@ -64,13 +62,6 @@ class GamesScraper {
 
         dataContainer.images.removeAt(0)
         dataContainer.images.removeAt(43)
-
-        var x = 0
-        while (x < dataContainer.synopsis.count()) {
-            println(x.toString() + " - " + dataContainer.titles[x] + ": " + dataContainer.synopsis[x])
-            println(dataContainer.images[x])
-            x++
-        }
 
         return dataContainer
     }

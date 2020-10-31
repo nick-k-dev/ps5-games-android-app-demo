@@ -19,12 +19,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //Start loading process and setup recycler
         val scraperVM = ScraperViewModel(GamesScraper())
         val context = this
         scraperVM.getGames(url, object:ScraperViewModel.ScraperResponse{
             override fun onFinishedLoading() {
-                println("print dataContainer")
-                println(dataContainer.titles.count())
                 viewManager = LinearLayoutManager(context)
                 viewAdapter = MyRecyclerAdapter(dataContainer)
 
